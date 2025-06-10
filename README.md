@@ -1,70 +1,45 @@
-# Split&Go - Aplicación de Gestión para Restaurantes
+# Split&Go - Aplicación para Clientes
 
-Split&Go es una aplicación moderna diseñada para mejorar la experiencia de pago y gestión en restaurantes y bares, permitiendo a los comensales dividir la cuenta de forma sencilla, precisa e independiente.
+Split&Go es una aplicación moderna diseñada para mejorar la experiencia de pago en restaurantes y bares, permitiendo a los comensales dividir la cuenta de forma sencilla, precisa e independiente.
 
-## Características Principales
+## Características para Clientes
 
-### Para Clientes
-- Acceso mediante código QR único por mesa
-- Visualización de carta digital
-- Selección individual de productos consumidos
-- División automática de cuenta
-- Pago individual mediante tarjeta, Apple Pay o Google Pay
-- Historial de pedidos
-- Soporte multiidioma
-
-### Para Meseros
-- Gestión completa de mesas
-- Registro de pedidos
-- Asignación de productos a clientes
-- Modificación de cuentas activas
-- Comunicación con cocina
-- Notificaciones en tiempo real
-
-### Para Cocina
-- Visualización de pedidos por orden
-- Gestión de pedidos por mesa
-- Marcado de pedidos preparados
-- Chat interno con meseros
-
-### Para Administradores
-- Registro y configuración del restaurante
-- Gestión de usuarios y roles
-- Edición de carta en tiempo real
-- Control de inventario
-- Gestión de reservas
-- Estadísticas y reportes
-- Configuración de propinas
-- Modo autoservicio
+* Acceso mediante código QR único por mesa
+* Visualización de carta digital
+* Selección individual de productos consumidos
+* División automática de cuenta
+* Pago individual mediante tarjeta, Apple Pay o Google Pay
+* Historial de pedidos
+* Soporte multiidioma
 
 ## Tecnologías Utilizadas
 
-- Frontend: Next.js, React
-- Backend: Supabase
-- Pagos: Stripe
-- Despliegue: Vercel
-- Base de datos: PostgreSQL
-- Autenticación: Supabase Auth
-- Notificaciones: Firebase Cloud Messaging
+* Frontend: Next.js, React
+* Backend: Supabase
+* Pagos: Stripe
+* Despliegue: Vercel
+* Base de datos: PostgreSQL
+* Autenticación: Supabase Auth
+* Notificaciones: Firebase Cloud Messaging
 
 ## Requisitos del Sistema
 
-- Node.js 18.x o superior
-- npm 9.x o superior
-- Cuenta de Supabase
-- Cuenta de Stripe
-- Cuenta de Vercel
+* Node.js 18.x o superior
+* npm 9.x o superior
+* Cuenta de Supabase
+* Cuenta de Stripe
+* Cuenta de Vercel
 
 ## Instalación
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/SplitandGO/COdigosfinales.git
+git clone https://github.com/SplitandGO/Split_Go_Clientes.git
 ```
 
 2. Instalar dependencias:
 ```bash
-cd COdigosfinales
+cd Split_Go_Clientes
 npm install
 ```
 
@@ -81,15 +56,14 @@ npm run dev
 ## Estructura del Proyecto
 
 ```
-COdigosfinales/
+Split_Go_Clientes/
 ├── app/                    # Directorio principal de la aplicación
 │   ├── (auth)/            # Rutas de autenticación
-│   ├── (dashboard)/       # Panel de control
-│   ├── api/               # API routes
+│   ├── carta/             # Carta digital
+│   ├── pedidos/           # Gestión de pedidos
 │   └── components/        # Componentes reutilizables
 ├── lib/                   # Utilidades y configuraciones
-├── public/               # Archivos estáticos
-└── styles/              # Estilos globales
+└── public/               # Archivos estáticos
 ```
 
 ## Contribución
@@ -102,10 +76,10 @@ COdigosfinales/
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
+Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE.md para más detalles.
 
 ## Contacto
 
-Split&Go Team - [@SplitandGO](https://github.com/SplitandGO)
+Split&Go Team - @SplitandGO
 
-Link del Proyecto: [https://github.com/SplitandGO/COdigosfinales](https://github.com/SplitandGO/COdigosfinales)
+Link del Proyecto: https://github.com/SplitandGO/Split_Go_Clientes
