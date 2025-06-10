@@ -33,7 +33,11 @@ interface OrderWithItems extends Order {
   })[]
 }
 
-export default function OrderList() {
+interface OrderListProps {
+  status?: 'pendiente' | 'preparando' | 'listo' | 'entregado'
+}
+
+export default function OrderList({ status }: OrderListProps) {
   const [orders, setOrders] = useState<OrderWithItems[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedOrder, setSelectedOrder] = useState<OrderWithItems | null>(null)
@@ -45,14 +49,20 @@ export default function OrderList() {
 
   useEffect(() => {
     fetchOrders()
-  }, [])
+  }, [status])
 
   const fetchOrders = async () => {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('orders')
         .select('*, order_items(*, products(*))')
         .order('created_at', { ascending: false })
+
+      if (status) {
+        query = query.eq('status', status)
+      }
+
+      const { data, error } = await query
 
       if (error) throw error
 

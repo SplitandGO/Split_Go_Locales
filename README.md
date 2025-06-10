@@ -1,16 +1,32 @@
-# Split&Go - Aplicación para Clientes
+# Split&Go - Aplicación de Gestión para Restaurantes
 
-Split&Go es una aplicación moderna diseñada para mejorar la experiencia de pago en restaurantes y bares, permitiendo a los comensales dividir la cuenta de forma sencilla, precisa e independiente.
+Split&Go es una aplicación moderna diseñada para mejorar la gestión y operación de restaurantes y bares, ofreciendo herramientas completas para meseros, cocina y administradores.
 
-## Características para Clientes
+## Características por Rol
 
-* Acceso mediante código QR único por mesa
-* Visualización de carta digital
-* Selección individual de productos consumidos
-* División automática de cuenta
-* Pago individual mediante tarjeta, Apple Pay o Google Pay
-* Historial de pedidos
-* Soporte multiidioma
+### Para Meseros
+* Gestión completa de mesas
+* Registro de pedidos
+* Asignación de productos a clientes
+* Modificación de cuentas activas
+* Comunicación con cocina
+* Notificaciones en tiempo real
+
+### Para Cocina
+* Visualización de pedidos por orden
+* Gestión de pedidos por mesa
+* Marcado de pedidos preparados
+* Chat interno con meseros
+
+### Para Administradores
+* Registro y configuración del restaurante
+* Gestión de usuarios y roles
+* Edición de carta en tiempo real
+* Control de inventario
+* Gestión de reservas
+* Estadísticas y reportes
+* Configuración de propinas
+* Modo autoservicio
 
 ## Tecnologías Utilizadas
 
@@ -34,12 +50,12 @@ Split&Go es una aplicación moderna diseñada para mejorar la experiencia de pag
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/SplitandGO/Split_Go_Clientes.git
+git clone https://github.com/SplitandGO/Split_Go_Locales.git
 ```
 
 2. Instalar dependencias:
 ```bash
-cd Split_Go_Clientes
+cd Split_Go_Locales
 npm install
 ```
 
@@ -56,11 +72,14 @@ npm run dev
 ## Estructura del Proyecto
 
 ```
-Split_Go_Clientes/
+Split_Go_Locales/
 ├── app/                    # Directorio principal de la aplicación
 │   ├── (auth)/            # Rutas de autenticación
-│   ├── carta/             # Carta digital
+│   ├── (dashboard)/       # Panel de control
+│   ├── api/               # API routes
+│   ├── mesas/             # Gestión de mesas
 │   ├── pedidos/           # Gestión de pedidos
+│   ├── cocina/            # Interfaz de cocina
 │   └── components/        # Componentes reutilizables
 ├── lib/                   # Utilidades y configuraciones
 └── public/               # Archivos estáticos
@@ -82,4 +101,4 @@ Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE.md para más d
 
 Split&Go Team - @SplitandGO
 
-Link del Proyecto: https://github.com/SplitandGO/Split_Go_Clientes
+Link del Proyecto: https://github.com/SplitandGO/Split_Go_Locales
