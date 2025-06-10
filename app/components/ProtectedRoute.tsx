@@ -1,62 +1,62 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/lib/firebase'
+import { useSupabase } from '@/lib/supabase'
 import { Box, Spinner, Center } from '@chakra-ui/react'
-import { supabase } from '@/lib/supabase'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
-  allowedRoles?: string[]
+  requiredRole?: 'admin' | 'superadmin'
 }
 
-export default function ProtectedRoute({ children, allowedRoles = [] }: ProtectedRouteProps) {
-  const { user, loading } = useAuth()
+export default function ProtectedRoute({
+  children,
+  requiredRole
+}: ProtectedRouteProps) {
   const router = useRouter()
-  const [userRole, setUserRole] = useState<string | null>(null)
+  const { supabase, user, loading } = useSupabase()
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login')
-    }
-  }, [user, loading, router])
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session) {
+        router.push('/login')
+        return
+      }
 
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      if (user) {
-        try {
-          const { data: { role } } = await supabase
-            .from('users')
-            .select('role')
-            .eq('id', user.uid)
-            .single()
-          
-          setUserRole(role)
-        } catch (error) {
-          console.error('Error fetching user role:', error)
+      if (requiredRole) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single()
+
+        if (!profile || profile.role !== requiredRole) {
+          router.push('/unauthorized')
+          return
         }
       }
     }
 
-    fetchUserRole()
-  }, [user])
+    if (!loading) {
+      checkAuth()
+    }
+  }, [loading, requiredRole, router, supabase])
 
   if (loading) {
     return (
       <Center h="100vh">
-        <Spinner size="xl" />
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
       </Center>
     )
-  }
-
-  if (!user) {
-    return null
-  }
-
-  if (allowedRoles.length > 0 && userRole && !allowedRoles.includes(userRole)) {
-    router.push('/')
-    return null
   }
 
   return <Box>{children}</Box>

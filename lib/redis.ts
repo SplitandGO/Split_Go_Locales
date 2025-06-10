@@ -1,19 +1,150 @@
-import { Redis } from 'ioredis'
+import Redis from 'ioredis'
 
-// Configuración de Redis para caché y optimización
-const redisConfig = {
-  host: process.env.REDIS_HOST || 'localhost',
-  port: parseInt(process.env.REDIS_PORT || '6379'),
-  password: process.env.REDIS_PASSWORD,
-  db: parseInt(process.env.REDIS_DB || '0'),
-  retryStrategy: (times: number) => {
-    const delay = Math.min(times * 50, 2000)
-    return delay
+const redisUrl = process.env.REDIS_URL
+
+if (!redisUrl) {
+  throw new Error('Falta la variable de entorno REDIS_URL')
+}
+
+const redis = new Redis(redisUrl)
+
+// Funciones de utilidad para caché
+export const getCachedData = async <T>(key: string): Promise<T | null> => {
+  const data = await redis.get(key)
+  return data ? JSON.parse(data) : null
+}
+
+export const setCachedData = async <T>(
+  key: string,
+  data: T,
+  ttl: number = 3600
+): Promise<void> => {
+  await redis.setex(key, ttl, JSON.stringify(data))
+}
+
+export const deleteCachedData = async (key: string): Promise<void> => {
+  await redis.del(key)
+}
+
+// Funciones específicas para caché de datos comunes
+export const getCachedRestaurante = async (id: string) => {
+  return getCachedData(`restaurante:${id}`)
+}
+
+export const setCachedRestaurante = async (id: string, data: any) => {
+  await setCachedData(`restaurante:${id}`, data)
+}
+
+export const getCachedProductos = async (restauranteId: string) => {
+  return getCachedData(`productos:${restauranteId}`)
+}
+
+export const setCachedProductos = async (restauranteId: string, data: any[]) => {
+  await setCachedData(`productos:${restauranteId}`, data)
+}
+
+export const getCachedEstadisticas = async (
+  restauranteId: string,
+  periodo: string
+) => {
+  return getCachedData(`estadisticas:${restauranteId}:${periodo}`)
+}
+
+export const setCachedEstadisticas = async (
+  restauranteId: string,
+  periodo: string,
+  data: any
+) => {
+  await setCachedData(`estadisticas:${restauranteId}:${periodo}`, data)
+}
+
+export const getCachedPedidos = async (restauranteId: string) => {
+  return getCachedData(`pedidos:${restauranteId}`)
+}
+
+export const setCachedPedidos = async (restauranteId: string, data: any[]) => {
+  await setCachedData(`pedidos:${restauranteId}`, data)
+}
+
+export const getCachedMesas = async (restauranteId: string) => {
+  return getCachedData(`mesas:${restauranteId}`)
+}
+
+export const setCachedMesas = async (restauranteId: string, data: any[]) => {
+  await setCachedData(`mesas:${restauranteId}`, data)
+}
+
+export const getCachedEmpleados = async (restauranteId: string) => {
+  return getCachedData(`empleados:${restauranteId}`)
+}
+
+export const setCachedEmpleados = async (restauranteId: string, data: any[]) => {
+  await setCachedData(`empleados:${restauranteId}`, data)
+}
+
+export const getCachedProveedores = async (restauranteId: string) => {
+  return getCachedData(`proveedores:${restauranteId}`)
+}
+
+export const setCachedProveedores = async (restauranteId: string, data: any[]) => {
+  await setCachedData(`proveedores:${restauranteId}`, data)
+}
+
+export const getCachedInventario = async (restauranteId: string) => {
+  return getCachedData(`inventario:${restauranteId}`)
+}
+
+export const setCachedInventario = async (restauranteId: string, data: any[]) => {
+  await setCachedData(`inventario:${restauranteId}`, data)
+}
+
+export const getCachedReservas = async (restauranteId: string) => {
+  return getCachedData(`reservas:${restauranteId}`)
+}
+
+export const setCachedReservas = async (restauranteId: string, data: any[]) => {
+  await setCachedData(`reservas:${restauranteId}`, data)
+}
+
+export const getCachedNotificaciones = async (restauranteId: string) => {
+  return getCachedData(`notificaciones:${restauranteId}`)
+}
+
+export const setCachedNotificaciones = async (restauranteId: string, data: any[]) => {
+  await setCachedData(`notificaciones:${restauranteId}`, data)
+}
+
+export const getCachedConfiguracion = async (restauranteId: string) => {
+  return getCachedData(`configuracion:${restauranteId}`)
+}
+
+export const setCachedConfiguracion = async (restauranteId: string, data: any) => {
+  await setCachedData(`configuracion:${restauranteId}`, data)
+}
+
+export const getCachedPlan = async (restauranteId: string) => {
+  return getCachedData(`plan:${restauranteId}`)
+}
+
+export const setCachedPlan = async (restauranteId: string, data: any) => {
+  await setCachedData(`plan:${restauranteId}`, data)
+}
+
+// Función para limpiar caché de un restaurante
+export const clearRestauranteCache = async (restauranteId: string) => {
+  const keys = await redis.keys(`*:${restauranteId}`)
+  if (keys.length > 0) {
+    await redis.del(...keys)
   }
 }
 
-// Cliente Redis para caché
-export const redis = new Redis(redisConfig)
+// Función para limpiar caché de un usuario
+export const clearUsuarioCache = async (usuarioId: string) => {
+  const keys = await redis.keys(`usuario:${usuarioId}:*`)
+  if (keys.length > 0) {
+    await redis.del(...keys)
+  }
+}
 
 // Funciones de utilidad para caché
 export const cacheUtils = {

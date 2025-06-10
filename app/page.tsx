@@ -8,26 +8,30 @@ export default function Home() {
   const bgColor = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
 
-  const roles = [
+  const features = [
     {
-      title: 'Cliente',
-      description: 'Accede a la carta, realiza pedidos y paga tu cuenta individualmente',
-      path: '/cliente'
-    },
-    {
-      title: 'Mesero',
-      description: 'Gestiona mesas, registra pedidos y comunícate con cocina',
-      path: '/mesero'
+      title: 'Gestión de Mesas',
+      description: 'Administra mesas, pedidos y comandas en tiempo real',
+      icon: '🍽️',
+      path: '/mesas'
     },
     {
       title: 'Cocina',
-      description: 'Visualiza y gestiona pedidos, marca preparados y comunícate con meseros',
+      description: 'Visualiza y gestiona pedidos, marca preparados',
+      icon: '👨‍🍳',
       path: '/cocina'
     },
     {
-      title: 'Administrador',
-      description: 'Gestiona el restaurante, usuarios, carta y estadísticas',
+      title: 'Administración',
+      description: 'Gestiona usuarios, carta, inventario y estadísticas',
+      icon: '📊',
       path: '/admin'
+    },
+    {
+      title: 'Superadmin',
+      description: 'Panel de control global y gestión de restaurantes',
+      icon: '👑',
+      path: '/superadmin'
     }
   ]
 
@@ -36,7 +40,7 @@ export default function Home() {
       <VStack spacing={8} align="stretch">
         <Box textAlign="center" py={10}>
           <Heading as="h1" size="2xl" mb={4}>
-            Bienvenido a Split&Go
+            Bienvenido a Split&Go Work
           </Heading>
           <Text fontSize="xl" color="gray.600">
             Tu solución integral para la gestión de restaurantes
@@ -44,9 +48,9 @@ export default function Home() {
         </Box>
 
         <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8}>
-          {roles.map((role) => (
+          {features.map((feature) => (
             <Box
-              key={role.title}
+              key={feature.title}
               p={6}
               bg={bgColor}
               borderRadius="lg"
@@ -56,13 +60,16 @@ export default function Home() {
               transition="all 0.3s"
             >
               <VStack spacing={4} align="stretch">
-                <Heading as="h3" size="lg">
-                  {role.title}
+                <Text fontSize="4xl" textAlign="center">
+                  {feature.icon}
+                </Text>
+                <Heading as="h3" size="lg" textAlign="center">
+                  {feature.title}
                 </Heading>
-                <Text color="gray.600">{role.description}</Text>
+                <Text color="gray.600" textAlign="center">{feature.description}</Text>
                 <Button
                   colorScheme="blue"
-                  onClick={() => router.push(role.path)}
+                  onClick={() => router.push(feature.path)}
                   mt={4}
                 >
                   Acceder
@@ -71,6 +78,22 @@ export default function Home() {
             </Box>
           ))}
         </SimpleGrid>
+
+        <Box textAlign="center" py={10}>
+          <Heading as="h2" size="xl" mb={4}>
+            ¿Eres un cliente?
+          </Heading>
+          <Text fontSize="lg" color="gray.600" mb={6}>
+            Descarga nuestra aplicación para clientes
+          </Text>
+          <Button
+            colorScheme="green"
+            size="lg"
+            onClick={() => window.location.href = 'https://splitandgo.com/clientes'}
+          >
+            Ir a Split&Go Clientes
+          </Button>
+        </Box>
       </VStack>
     </Container>
   )

@@ -401,4 +401,78 @@ export type PremiumSecurity = {
 export type PremiumCustomization = {
   restaurant: RestaurantCustomization
   customer: CustomerCustomization
+}
+
+export type PlanType = 'free' | 'premium' | 'enterprise';
+
+export interface PremiumFeature {
+  id: string;
+  name: string;
+  description: string;
+  availableIn: PlanType[];
+  icon: string;
+}
+
+export interface UserPlan {
+  type: PlanType;
+  features: PremiumFeature[];
+  price: number;
+  currency: string;
+  billingCycle: 'monthly' | 'yearly';
+}
+
+export interface InventarioFeature extends PremiumFeature {
+  stockTracking: boolean;
+  lowStockAlerts: boolean;
+  supplierIntegration: boolean;
+  batchManagement: boolean;
+}
+
+export interface EstadisticaFeature extends PremiumFeature {
+  realTimeAnalytics: boolean;
+  customReports: boolean;
+  exportData: boolean;
+  predictiveAnalytics: boolean;
+}
+
+export interface GestionFeature extends PremiumFeature {
+  multipleLocations: boolean;
+  employeeManagement: boolean;
+  scheduling: boolean;
+  payroll: boolean;
+}
+
+export interface MarketingFeature extends PremiumFeature {
+  loyaltyProgram: boolean;
+  emailMarketing: boolean;
+  socialMedia: boolean;
+  promotions: boolean;
+}
+
+export interface IntegracionFeature extends PremiumFeature {
+  posIntegration: boolean;
+  accountingSoftware: boolean;
+  deliveryPlatforms: boolean;
+  customApi: boolean;
+}
+
+export interface SoporteFeature extends PremiumFeature {
+  prioritySupport: boolean;
+  dedicatedManager: boolean;
+  training: boolean;
+  customDevelopment: boolean;
+}
+
+export interface SeguridadFeature extends PremiumFeature {
+  advancedAuth: boolean;
+  auditLogs: boolean;
+  dataEncryption: boolean;
+  compliance: boolean;
+}
+
+export interface PersonalizacionFeature extends PremiumFeature {
+  whiteLabel: boolean;
+  customDomain: boolean;
+  branding: boolean;
+  customFeatures: boolean;
 } 
