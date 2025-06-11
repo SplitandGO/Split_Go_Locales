@@ -46,10 +46,41 @@ interface Order {
   created_at: string
   updated_at: string
   special_requests?: string
+  external_app?: string
+  type?: string
+  table_number?: number
 }
 
 interface KitchenProps {
   restaurantId: string
+}
+
+// Tipos de pedido y apps externas
+const ORDER_TYPE_LABELS: Record<string, { label: string; emoji: string; color: string }> = {
+  mesa: { label: 'Servir en Mesa', emoji: '🪑', color: 'blue' },
+  takeaway: { label: 'Para Retirar', emoji: '🛍️', color: 'orange' },
+  delivery: { label: 'Delivery', emoji: '🛵', color: 'green' },
+  uber: { label: 'Uber Eats', emoji: '🟣', color: 'purple' },
+  pedidosya: { label: 'PedidosYa', emoji: '🟡', color: 'yellow' },
+  rappi: { label: 'Rappi', emoji: '🟠', color: 'red' }
+};
+
+function getOrderTypeBadge(order: Order) {
+  if (order.external_app) {
+    const app = ORDER_TYPE_LABELS[order.external_app] || { label: order.external_app, emoji: '📦', color: 'gray' };
+    return (
+      <Badge colorScheme={app.color} mr={2}>
+        {app.emoji} {app.label}
+      </Badge>
+    );
+  }
+  const type = ORDER_TYPE_LABELS[order.type] || { label: order.type, emoji: '', color: 'gray' };
+  return (
+    <Badge colorScheme={type.color} mr={2}>
+      {type.emoji} {type.label}
+      {order.type === 'mesa' && order.table_number ? ` - Mesa ${order.table_number}` : ''}
+    </Badge>
+  );
 }
 
 export default function Kitchen({ restaurantId }: KitchenProps) {
@@ -317,9 +348,12 @@ export default function Kitchen({ restaurantId }: KitchenProps) {
               <VStack align="start" spacing={4}>
                 <HStack justify="space-between" width="100%">
                   <VStack align="start" spacing={1}>
-                    <Text fontSize="lg" fontWeight="bold">
-                      Pedido #{order.id.slice(-6)} - Mesa {order.table_id}
-                    </Text>
+                    <HStack>
+                      {getOrderTypeBadge(order)}
+                      <Text fontWeight="bold">
+                        Pedido #{order.id.slice(-6)} - Mesa {order.table_id}
+                      </Text>
+                    </HStack>
                     <Text>
                       Fecha: {new Date(order.created_at).toLocaleString()}
                     </Text>
